@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Holiday;
+use Faker\Generator as Faker;
 
 class HolidaysTableSeeder extends Seeder
 {
@@ -10,20 +11,23 @@ class HolidaysTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(Faker $faker)
     {
-        $newHoliday = new Holiday();
-        $newHoliday->code ="mb-100-123";
-        $newHoliday->country ="Madagascar";
-        $newHoliday->city ="Andilana";
-        $newHoliday->hotel_name ="Andilana Beach";
-        $newHoliday->departure_airport ="Roma Fiumicino";
-        $newHoliday->arrival_airport ="Andilana Airport";
-        $newHoliday->departure_date ="2021/02/20";
-        $newHoliday->arrival_date ="2021/02/20";
-        $newHoliday->days =10;
-        $newHoliday->packedge ="Full Board";
-        $newHoliday->price =1200;
-        $newHoliday->save();
+        for ( $i = 0; $i < 100; $i++ ) {
+            $newHoliday = new Holiday();
+            $newHoliday->code = $faker->ean8();
+            $newHoliday->country = $faker->country();
+            $newHoliday->city = $faker->city();
+            $newHoliday->hotel_name = $faker->company();
+            $newHoliday->departure_airport = $faker->city();;
+            $newHoliday->arrival_airport = $faker->city();
+            $newHoliday->departure_date = $faker->dateTimeThisMonth();
+            $newHoliday->arrival_date =$faker->dateTimeThisMonth('+21 days');
+            $newHoliday->days = $faker->randomDigit();
+            $newHoliday->packedge ="Full Board";
+            $newHoliday->price = $faker->randomFloat(2, 200, 2000);
+            $newHoliday->save();   
+        }
+        
     }
 }
